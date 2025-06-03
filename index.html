@@ -430,40 +430,39 @@
                 const details = document.createElement('div');
                 details.className = 'account-details';
                 details.innerHTML = `
-                    <p><strong>Ochilgan sana:</strong> ${acc.date || 'Noma'lum'}</p>
-                    < p > <strong>Oyinchilar soni:</strong> ${
-                    acc.players || 'Noma'lum'}</p>
-                        < p > <strong>Epic soni:</strong> ${
-                        acc.epic || 'Noma'lum'}</p>
-                            < p > <strong>Showtime soni:</strong> ${
-                            acc.showtime || 'Noma'lum'}</p>
-                                < p > <strong>Narxi:</strong> ${ acc.price ? acc.price + ' UZS' : 'Noma\'lum' }</p >
-                                    <p><strong>Qo‘shimcha ma\'lumot:</strong> ${acc.extra || 'Yo‘q'}</p>
-                            `;
+    <p><strong>Ochilgan sana:</strong> ${acc.date || 'Noma\'lum'}</p>
+    <p><strong>Oyinchilar soni:</strong> ${acc.players || 'Noma\'lum'}</p>
+    <p><strong>Epic soni:</strong> ${acc.epic || 'Noma\'lum'}</p>
+    <p><strong>Showtime soni:</strong> ${acc.showtime || 'Noma\'lum'}</p>
+    <p><strong>Narxi:</strong> ${acc.price ? acc.price + ' UZS' : 'Noma\'lum'}</p>
+    <p><strong>Qo‘shimcha ma'lumot:</strong> ${acc.extra || 'Yoq'}</p>
+`;
 
                 // Xarid qilish tugmasi
                 const buyBtn = document.createElement('a');
                 buyBtn.className = 'buy-button';
                 buyBtn.textContent = 'Sotib olish';
                 buyBtn.href = `https://t.me/${acc.tg.replace(/^@/, '')}`;
-                            buyBtn.target = '_blank';
-                            details.appendChild(buyBtn);
+                buyBtn.target = '_blank';
 
-                            // Bosilganda ma'lumotni ochish/yopish
-                            card.addEventListener('click', () => {
-                                const isVisible = details.style.display === 'flex';
-                                // Hammasini yopish
-                                document.querySelectorAll('.account-details').forEach(d => (d.style.display = 'none'));
-                                if (!isVisible) {
-                                    details.style.display = 'flex';
-                                }
-                            });
+                details.appendChild(buyBtn);
 
-                            card.appendChild(img);
-                            card.appendChild(summary);
-                            card.appendChild(details);
-                            accountsDiv.appendChild(card);
-                        });
+
+                // Bosilganda ma'lumotni ochish/yopish
+                card.addEventListener('click', () => {
+                    const isVisible = details.style.display === 'flex';
+                    // Hammasini yopish
+                    document.querySelectorAll('.account-details').forEach(d => (d.style.display = 'none'));
+                    if (!isVisible) {
+                        details.style.display = 'flex';
+                    }
+                });
+
+                card.appendChild(img);
+                card.appendChild(summary);
+                card.appendChild(details);
+                accountsDiv.appendChild(card);
+            });
             updatePostCount();
         }
 
