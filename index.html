@@ -478,7 +478,6 @@
 
         // Hisob qo‘shish
         submitBtn.addEventListener('click', () => {
-            // Form validatsiyasi
             const name = document.getElementById('name').value.trim();
             const date = document.getElementById('date').value;
             const players = parseInt(document.getElementById('players').value);
@@ -501,17 +500,16 @@
                 return;
             }
 
-            // Rasmni Base64 formatda o‘qish
             const file = imageInput.files[0];
             if (!file) {
                 alert('Iltimos, hisob uchun rasm yuklang!');
                 return;
             }
+
             const reader = new FileReader();
             reader.onload = e => {
                 const imgData = e.target.result;
 
-                // Limitlar tekshiruvi yana bir bor
                 const totalAllowed = paid ? FREE_LIMIT + PAID_EXTRA : FREE_LIMIT;
                 if (accounts.length >= totalAllowed) {
                     alert('Siz hisob joylash limitiga yetdingiz!');
@@ -519,22 +517,26 @@
                     return;
                 }
 
-                // Hisobni saqlash
                 accounts.push({
-                    name, date, players, epic, showtime, price, tg, extra, image: imgData
+                    name,
+                    date,
+                    players: isNaN(players) ? 0 : players,
+                    epic: isNaN(epic) ? 0 : epic,
+                    showtime: isNaN(showtime) ? 0 : showtime,
+                    price,
+                    tg,
+                    extra,
+                    image: imgData,
                 });
-                localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(accounts));
-                alert('Hisob muvaffaqiyatli joylandi!');
-                closeModal();
-                renderAccounts();
 
-                // Limitga yetgan bo‘lsa tugmani o‘chirish
-                if (!paid && accounts.length >= FREE_LIMIT) {
-                    addBtn.disabled = true;
-                }
+                localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(accounts));
+                updatePostCount();
+                renderAccounts();
+                closeModal();
             };
             reader.readAsDataURL(file);
         });
+
 
         // Dastlabki render
         renderAccounts();
